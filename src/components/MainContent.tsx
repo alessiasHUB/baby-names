@@ -1,10 +1,9 @@
-import NameRender from "../utils/name-render"
+import NameRender from "../utils/name-render";
 
-export default function MainContent():JSX.Element {
-
-    return (
-        <>
-        <NameRender />
-        </>
-        )
+export default function MainContent(): JSX.Element {
+  return (
+    <>
+      <NameRender />
+    </>
+  );
 }
