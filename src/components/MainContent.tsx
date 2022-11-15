@@ -1,9 +1,9 @@
-import NameRender from "../utils/name-render";
+import SearchNameRender from "../utils/search-name-render";
 
 export default function MainContent(): JSX.Element {
   return (
     <>
-      <NameRender />
+      <SearchNameRender />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { name, NameData } from "./names-data";
-import { useState } from "react"
+import { useState } from "react";
 
 // sorting the baby-names alphabetically
 name.sort(function (a, b) {
@@ -12,15 +12,18 @@ name.sort(function (a, b) {
   return 0;
 });
 
-// making all the buttons for each name
-export default function NameRender(): JSX.Element {
+// making all the buttons for each name ++ search-bar
+export default function SearchNameRender(): JSX.Element {
   const [text, setText] = useState<string>("");
   const [nameList, setnameList] = useState<NameData[] | undefined>(name);
-  
+
+  // function that gets called when search button is clicked
   const handleOnClick = () => {
     const findName =
       nameList && nameList?.length > 0
-        ? nameList?.filter((u) => u?.name.toLowerCase().includes(text.toLowerCase()) === true)
+        ? nameList?.filter(
+            (u) => u?.name.toLowerCase().includes(text.toLowerCase()) === true
+          )
         : undefined;
     setnameList(findName);
   };
@@ -42,8 +45,9 @@ export default function NameRender(): JSX.Element {
     );
   };
 
-  // mapping over the whole list of names
-  const NameList = () => {
+  // mapping over the whole list of names and handling
+  // the search bar|button
+  const SearchAndNameList = () => {
     return (
       <>
         <div>
@@ -66,18 +70,17 @@ export default function NameRender(): JSX.Element {
           {nameList &&
             nameList?.length > 0 &&
             nameList?.map((name) => {
-              return (
-                <NameMapItem name={name} key={name.id} />
-              );
+              return <NameMapItem name={name} key={name.id} />;
             })}
         </div>
       </>
     );
   };
 
+  // final return
   return (
     <>
-      <NameList />
+      <SearchAndNameList />
     </>
   );
 }
