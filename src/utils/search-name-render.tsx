@@ -1,86 +1,45 @@
 import { name, NameData } from "./names-data";
 import { useState } from "react";
 
-// sorting the baby-names alphabetically
-name.sort(function (a, b) {
-  if (a.name < b.name) {
-    return -1;
-  }
-  if (a.name > b.name) {
-    return 1;
-  }
-  return 0;
-});
-
 // making all the buttons for each name ++ search-bar
 export default function SearchNameRender(): JSX.Element {
   const [text, setText] = useState<string>("");
-  const [nameList, setnameList] = useState<NameData[] | undefined>(name);
 
-  // function that gets called when search button is clicked
-  const handleOnClick = () => {
-    const findName =
-      nameList && nameList?.length > 0
-        ? nameList?.filter(
-            (u) => u?.name.toLowerCase().includes(text.toLowerCase()) === true
-          )
-        : undefined;
-    setnameList(findName);
-  };
-
-  interface NameMapItemProps {
-    name: NameData;
-  }
-
-  // colouring the buttons depending on "f" and "m"
-  const NameMapItem = (props: NameMapItemProps) => {
-    return (
-      <>
-        {props.name.sex === "f"}
-        <button className="f">{props.name.name}</button>
-
-        {props.name.sex === "m"}
-        <button className="m">{props.name.name}</button>
-      </>
-    );
-  };
-
-  // mapping over the whole list of names and handling
-  // the search bar|button
-  const SearchAndNameList = () => {
-    return (
-      <>
-        <div>
-          <input
-            type="text"
-            placeholder="Search here"
-            value={text}
-            onChange={(e) => {
-              setText(e.target.value);
-              setnameList(name);
-            }}
-          />
-          <button className="search" disabled={!text} onClick={handleOnClick}>
-            Search
+  // (1) sorting through the names, alphabetically.
+  // (2) filter through the names, based on the input "text"
+  //     in the search bar.
+  // (3) mapping over all the names to make individual buttons
+  //     with the colour based on sex, className={babyNameData.sex}
+  const NameRender = name
+    .sort((a, b) => (a.name > b.name ? 1 : -1))
+    .filter((babyNameData: NameData) =>
+      babyNameData.name.toLowerCase().includes(text.toLowerCase())
+    )
+    .map((babyNameData: NameData) => {
+      return (
+        <>
+          <button key={babyNameData.id} className={babyNameData.sex}>
+            {babyNameData.name}
           </button>
-        </div>
-        <p> </p>
-        <div>
-          {nameList && nameList?.length === 0 && <div>No user found</div>}
-          {nameList &&
-            nameList?.length > 0 &&
-            nameList?.map((name) => {
-              return <NameMapItem name={name} key={name.id} />;
-            })}
-        </div>
-      </>
-    );
-  };
+        </>
+      );
+    });
 
   // final return
   return (
     <>
-      <SearchAndNameList />
+      <div>
+        <input
+          type="text"
+          placeholder="Search here"
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+          }}
+        />
+      </div>
+      <p></p>
+      <div>{NameRender}</div>
     </>
   );
 }
