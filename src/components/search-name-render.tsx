@@ -8,14 +8,14 @@ export default function SearchNameRender(): JSX.Element {
 
   // adding a name to favourites
   const handleFaveNames = (faveID: number) => {
-    setFave([faveID, ...fave])
-  }
+    setFave([faveID, ...fave]);
+  };
 
   // removing a name from favourites
   const handleRemoval = (faveID: number) => {
-    const cleanIDs = fave.filter(ID => ID !== faveID)
-    setFave([...cleanIDs])
-  }
+    const cleanIDs = fave.filter((ID) => ID !== faveID);
+    setFave([...cleanIDs]);
+  };
 
   // (1) sorting through the names, alphabetically.
   // (2) filter through the names, based on the input "text"
@@ -24,9 +24,10 @@ export default function SearchNameRender(): JSX.Element {
   //     with the colour based on sex, className={babyNameData.sex}
   const nameRender = babyName
     .sort((a, b) => (a.name > b.name ? 1 : -1))
-    .filter((babyNameData: NameData) =>
-      babyNameData.name.toLowerCase().includes(text.toLowerCase()) 
-      && !fave.includes(babyNameData.id)
+    .filter(
+      (babyNameData: NameData) =>
+        babyNameData.name.toLowerCase().includes(text.toLowerCase()) &&
+        !fave.includes(babyNameData.id)
     )
     .map((babyNameData: NameData) => {
       return (
@@ -43,9 +44,7 @@ export default function SearchNameRender(): JSX.Element {
   // render the favourite name element
   const faveNameRender = babyName
     .sort((a, b) => (a.name > b.name ? 1 : -1))
-    .filter((favourite: NameData) =>
-    fave.includes(favourite.id)
-    )
+    .filter((favourite: NameData) => fave.includes(favourite.id))
     .map((favourite: NameData) => {
       return (
         <button
