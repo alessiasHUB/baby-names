@@ -4,7 +4,7 @@ export interface NameData {
   sex: "f" | "m";
 }
 
-export const name: NameData[] = [
+export const babyName: NameData[] = [
   {
     id: 0,
     name: "Zahra",
