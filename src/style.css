@@ -1,7 +1,15 @@
-.title {
+* {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.title {
   font-style: normal;
   color: rgb(77, 58, 95);
+}
+
+.fav-names {
+  color: rgb(77, 58, 95);
+  font-size: medium;
 }
 
 button {

@@ -5,6 +5,8 @@ import { useState } from "react";
 export default function SearchNameRender(): JSX.Element {
   const [text, setText] = useState<string>("");
   const [fave, setFave] = useState<number[]>([]);
+  const [sex, setsex] = useState<boolean | undefined>(undefined);
+  // girl = true, boy = false, all = undefined
 
   // adding a name to favourites
   const handleFaveNames = (faveID: number) => {
@@ -17,6 +19,23 @@ export default function SearchNameRender(): JSX.Element {
     setFave([...cleanIDs]);
   };
 
+  const handleBoys = () => {
+    if (sex === undefined || sex === true) {
+      setsex(false);
+    } else {
+      setsex(undefined);
+    }
+  };
+  const handleGirls = () => {
+    if (sex === undefined || sex === false) {
+      setsex(true);
+    } else {
+      setsex(undefined);
+    }
+  };
+  // const handleResetsex = () => {
+  //   setsex(undefined)
+  // };
   // (1) sorting through the names, alphabetically.
   // (2) filter through the names, based on the input "text"
   //     in the search bar.
@@ -28,6 +47,13 @@ export default function SearchNameRender(): JSX.Element {
       (babyNameData: NameData) =>
         babyNameData.name.toLowerCase().includes(text.toLowerCase()) &&
         !fave.includes(babyNameData.id)
+    )
+    .filter((favourite: NameData) =>
+      sex === true
+        ? favourite.sex === "f"
+        : sex === false
+        ? favourite.sex === "m"
+        : favourite.sex
     )
     .map((babyNameData: NameData) => {
       return (
@@ -45,6 +71,13 @@ export default function SearchNameRender(): JSX.Element {
   const faveNameRender = babyName
     .sort((a, b) => (a.name > b.name ? 1 : -1))
     .filter((favourite: NameData) => fave.includes(favourite.id))
+    .filter((favourite: NameData) =>
+      sex === true
+        ? favourite.sex === "f"
+        : sex === false
+        ? favourite.sex === "m"
+        : favourite.sex
+    )
     .map((favourite: NameData) => {
       return (
         <button
@@ -62,9 +95,14 @@ export default function SearchNameRender(): JSX.Element {
     <>
       <div>
         <div>
-          <h3>Favourite names:</h3>
-          <p>{faveNameRender}</p>
+          {faveNameRender.length > 0 && (
+            <>
+              <h3 className="fav-names">Favourite names:</h3>
+              <p>{faveNameRender}</p>
+            </>
+          )}
         </div>
+        <hr />
         <input
           type="text"
           placeholder="Search here"
@@ -73,6 +111,14 @@ export default function SearchNameRender(): JSX.Element {
             setText(e.target.value);
           }}
         />
+        <button className="m" onClick={handleBoys}>
+          ♂
+        </button>
+        <button className="f" onClick={handleGirls}>
+          ♀
+        </button>
+        {/* <button onClick={handleResetsex}>♀ & ♂</button> */}
+        <hr />
       </div>
       <div>{nameRender}</div>
     </>
